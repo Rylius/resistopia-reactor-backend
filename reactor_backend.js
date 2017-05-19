@@ -18,7 +18,7 @@ Object.keys(apiRoutes).forEach(route => {
 app.use('/ws/', require('./src/routes/ws/frontend'));
 
 app.use((req, res) => {
-    res.send(404);
+    res.sendStatus(404);
 });
 
 app.listen(config.server.port, () => {
