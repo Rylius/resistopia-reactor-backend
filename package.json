@@ -1,24 +1,26 @@
 {
-    "name": "resistopia-reactor-backend",
-    "version": "1.0.0",
-    "description": "Resistopia Reactor Simulation Backend",
-    "author": "Nils Günther <ryliusk@gmail.com>",
-    "license": "MIT",
-    "private": true,
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Rylius/resistopia-reactor-backend.git"
-    },
-    "scripts": {
-        "start": "node reactor_backend.js",
-        "dev": "nodemon reactor_backend.js"
-    },
-    "dependencies": {
-        "express": "^4.15.3",
-        "express-ws": "^3.0.0",
-        "resistopia-reactor-simulation": "github:rylius/resistopia-reactor-simulation#dev"
-    },
-    "devDependencies": {
-        "nodemon": "^1.11.0"
-    }
+  "name": "resistopia-reactor-backend",
+  "version": "1.0.0",
+  "description": "Resistopia Reactor Simulation Backend",
+  "author": "Nils Günther <ryliusk@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rylius/resistopia-reactor-backend.git"
+  },
+  "scripts": {
+    "start": "node reactor_backend.js",
+    "dev": "nodemon reactor_backend.js"
+  },
+  "dependencies": {
+    "deepmerge": "^1.3.2",
+    "express": "^4.15.3",
+    "express-ws": "^2.0.0",
+    "resistopia-reactor-simulation": "github:rylius/resistopia-reactor-simulation#dev",
+    "ws": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
 }

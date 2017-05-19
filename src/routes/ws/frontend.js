@@ -1,17 +1,27 @@
 const express = require('express');
 const router = express.Router();
 
+const frontend = require('../../frontend');
+
 router.ws('/frontend', (ws, req) => {
-    console.log('new ws frontend connection');
+    frontend.addWebSocket(ws);
+
+    ws.on('error', () => {
+        console.error(arguments);
+    });
 
     ws.on('message', msg => {
-        // TODO
-        console.log(msg);
+        try {
+            const message = JSON.parse(msg);
+            frontend.handleMessage(ws, message);
+        } catch (err) {
+            // TODO
+            console.error(err);
+        }
     });
 
     ws.on('close', () => {
-        // TODO
-        console.log('close');
+        frontend.removeWebSocket(ws);
     });
 });
 

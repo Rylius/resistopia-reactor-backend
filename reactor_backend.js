@@ -8,6 +8,10 @@ const expressWs = require('express-ws')(app, undefined, {
     perMessageDeflate: config.websockets.compression,
 });
 
+const simulation = require('./src/simulation');
+
+const frontend = require('./src/frontend');
+
 // Register routes
 
 const apiRoutes = {
@@ -23,21 +27,12 @@ app.use((req, res) => {
     res.sendStatus(404);
 });
 
-// Start simulation
-
-const Simulation = require('resistopia-reactor-simulation');
-
-const simulation = {
-    program: Simulation.Program.Prototype(),
-    state: null,
-    intervalId: null,
-    update: () => simulation.state = Simulation.update(simulation.program, simulation.state),
-};
-
-simulation.state = Simulation.createInitialState(simulation.program);
-simulation.intervalId = setInterval(simulation.update, 1000);
-
 // Start server
+
+simulation.onUpdate = () => {
+    frontend.broadcastStateUpdate(simulation.state);
+};
+simulation.start();
 
 app.listen(config.server.port, () => {
     console.log('Server running');
