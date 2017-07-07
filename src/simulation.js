@@ -1,14 +1,15 @@
 const Simulation = require('resistopia-reactor-simulation');
 
 const simulation = {
-    program: Simulation.Program.Prototype(),
+    tickMilliseconds: 1000,
+    program: Simulation.Program.BE13,
     state: null,
     intervalId: null,
     start() {
         simulation.stop();
 
         simulation.state = Simulation.createInitialState(simulation.program);
-        simulation.intervalId = setInterval(simulation.update, 1000);
+        simulation.intervalId = setInterval(simulation.update, simulation.tickMilliseconds);
     },
     stop() {
         if (simulation.intervalId) {
