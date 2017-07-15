@@ -9,7 +9,11 @@
         "appenders": {
             "file": {
                 "type": "file",
-                "filename": "logs/reactor_backend.log"
+                "filename": "logs/reactor_backend.log",
+                "maxLogSize": 10485760,
+                "numBackups": 3,
+                "compress": false,
+                "encoding": "utf-8"
             },
             "console": {
                 "type": "console"
