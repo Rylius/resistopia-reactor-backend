@@ -1,6 +1,17 @@
 const express = require('express');
+const log4js = require('log4js');
 
 const config = require('./config.json');
+try {
+    log4js.configure(config.log4js);
+} catch (error) {
+    log4js.configure({
+        appenders: {console: {type: 'console'}},
+        categories: {default: {appenders: ['console'], level: 'trace'}},
+    });
+}
+
+const log = log4js.getLogger('app');
 
 const app = express();
 
@@ -35,5 +46,5 @@ simulation.onUpdate = () => {
 simulation.start();
 
 app.listen(config.server.port, () => {
-    console.log('Server running');
+    log.info('Server running');
 });
