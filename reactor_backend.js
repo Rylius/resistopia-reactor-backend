@@ -27,6 +27,19 @@ process.on('SIGINT', shutdownListener);
 process.on('SIGTERM', shutdownListener);
 process.on('SIGHUP', shutdownListener);
 
+// Ensure backup directories exist
+
+const fs = require('fs');
+
+if (!fs.existsSync(config.backup.directories.temporary)) {
+    log.error('Temporary backup directory "%s" does not exist, backups will fail', config.backup.directories.temporary);
+}
+if (!fs.existsSync(config.backup.directories.persistent)) {
+    log.error('Persistent backup directory "%s" does not exist, backups will fail', config.backup.directories.persistent);
+}
+
+// Set up express
+
 const app = express();
 
 app.enable('trust proxy');
