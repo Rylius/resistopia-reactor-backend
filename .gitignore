@@ -8,3 +8,5 @@ test/unit/coverage
 logs
 
 .idea
+
+config.json
