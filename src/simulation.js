@@ -1,7 +1,10 @@
 const Simulation = require('resistopia-reactor-simulation');
+const backup = require('./backup');
 
 const simulation = {
     tickMilliseconds: 1000,
+    ticksBetweenTemporaryBackups: 60, // 1 minute
+    ticksBetweenPersistentBackups: 3600, // 1 hour
     program: Simulation.Program.BE13,
     state: null,
     intervalId: null,
@@ -22,6 +25,13 @@ const simulation = {
 
         if (simulation.onUpdate) {
             simulation.onUpdate(simulation);
+        }
+
+        if (simulation.state.tick % simulation.ticksBetweenTemporaryBackups === 0) {
+            backup.saveTemporary(simulation.state);
+        }
+        if (simulation.state.tick % simulation.ticksBetweenPersistentBackups === 0) {
+            backup.savePersistent(simulation.state);
         }
     },
     onUpdate: null,
