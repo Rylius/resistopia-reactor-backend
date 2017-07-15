@@ -31,10 +31,10 @@ process.on('SIGHUP', shutdownListener);
 
 const fs = require('fs');
 
-if (!fs.existsSync(config.backup.directories.temporary)) {
+if (fs.accessSync(config.backup.directories.temporary, fs.constants.R_OK | fs.constants.W_OK)) {
     log.error('Temporary backup directory "%s" does not exist, backups will fail', config.backup.directories.temporary);
 }
-if (!fs.existsSync(config.backup.directories.persistent)) {
+if (fs.accessSync(config.backup.directories.persistent, fs.constants.W_OK)) {
     log.error('Persistent backup directory "%s" does not exist, backups will fail', config.backup.directories.persistent);
 }
 
