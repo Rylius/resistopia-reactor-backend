@@ -5,6 +5,13 @@
     "websockets": {
         "compression": false
     },
+    "backup": {
+        "directories": {
+            "temporary": "backup/current",
+            "persistent": "backup/history"
+        },
+        "encoding": "utf-8"
+    },
     "log4js": {
         "appenders": {
             "file": {

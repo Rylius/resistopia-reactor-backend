@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "node reactor_backend.js",
-    "dev": "nodemon reactor_backend.js"
+    "dev": "nodemon --ignore backup/ reactor_backend.js"
   },
   "dependencies": {
     "deepmerge": "^1.3.2",
