@@ -10,6 +10,7 @@
             "temporary": "backup/current",
             "persistent": "backup/history"
         },
+        "maxTemporaryFiles": 60,
         "encoding": "utf-8"
     },
     "log4js": {
