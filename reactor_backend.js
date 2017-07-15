@@ -13,6 +13,20 @@ try {
 
 const log = log4js.getLogger('app');
 
+process.on('uncaughtException', (err) => {
+    log.fatal('Uncaught exception', err);
+    log4js.shutdown(() => process.exit(1));
+});
+
+function shutdownListener() {
+    log.info('Server shutting down');
+    log4js.shutdown();
+}
+
+process.on('SIGINT', shutdownListener);
+process.on('SIGTERM', shutdownListener);
+process.on('SIGHUP', shutdownListener);
+
 const app = express();
 
 app.enable('trust proxy');
