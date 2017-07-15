@@ -15,6 +15,8 @@ const log = log4js.getLogger('app');
 
 const app = express();
 
+app.enable('trust proxy');
+
 const expressWs = require('express-ws')(app, undefined, {
     perMessageDeflate: config.websockets.compression,
 });
