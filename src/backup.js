@@ -43,13 +43,15 @@ function deleteOldTemporaryFiles() {
         });
 }
 
+function sortStatsByBirthtime(a, b) {
+    if (a.birthtime === b.birthtime) {
+        return 0;
+    }
+    return a.birthtime > b.birthtime ? 1 : -1;
+}
+
 function deleteFiles(filesToDelete, stats) {
-    stats.sort((a, b) => {
-        if (a.birthtime === b.birthtime) {
-            return 0;
-        }
-        return a.birthtime > b.birthtime ? 1 : -1;
-    });
+    stats.sort(sortStatsByBirthtime);
 
     for (let i = 0; i < filesToDelete; i++) {
         const filePath = stats[i].path;
@@ -99,7 +101,44 @@ function savePersistent(state) {
         });
 }
 
+function restoreLatest() {
+    log.info('Searching for latest backup files...');
+
+    const stats = [];
+    [config.directories.temporary, config.directories.persistent].forEach(directory => {
+        fs.readdirSync(directory).forEach(file => {
+            const filePath = path.join(directory, file);
+            const stat = fs.statSync(filePath);
+            stat.path = filePath;
+            stats.push(stat);
+        });
+    });
+
+    if (stats.length <= 0) {
+        throw new Error('No backup files found');
+    }
+
+    stats.sort(sortStatsByBirthtime).reverse();
+
+    for (let i = 0; i < stats.length; i++) {
+        const file = stats[i].path;
+        log.trace('Loading "%s"', file);
+        try {
+            const data = JSON.parse(fs.readFileSync(file, config.encoding));
+            // TODO Add some proper validation
+            if (data && data.stateMachines) {
+                return data;
+            }
+        } catch (err) {
+            log.warn('Failed to load backup file "%s"', file, err);
+        }
+    }
+
+    throw new Error('Unable to load any backup file');
+}
+
 module.exports = {
     saveTemporary,
     savePersistent,
+    restoreLatest,
 };

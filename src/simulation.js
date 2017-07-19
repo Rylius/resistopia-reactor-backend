@@ -1,3 +1,6 @@
+const log = require('log4js').getLogger('simulation');
+
+const merge = require('deepmerge');
 const Simulation = require('resistopia-reactor-simulation');
 const backup = require('./backup');
 
@@ -11,7 +14,17 @@ const simulation = {
     start() {
         simulation.stop();
 
-        simulation.state = Simulation.createInitialState(simulation.program);
+        log.info('Setting up simulation state...');
+        const initialState = Simulation.createInitialState(simulation.program);
+        try {
+            // Merge onto the initial state to make sure new state machines are being added
+            simulation.state = merge(initialState, backup.restoreLatest());
+            log.info('Loaded backup file');
+        } catch (err) {
+            simulation.state = initialState;
+            log.info('No backup file found, using initial state', err);
+        }
+
         simulation.intervalId = setInterval(simulation.update, simulation.tickMilliseconds);
     },
     stop() {
