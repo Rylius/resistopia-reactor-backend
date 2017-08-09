@@ -6,6 +6,7 @@ const simulation = require('../../simulation');
 router.get('/simulation', (req, res) => {
     // TODO
     res.contentType('application/json');
+    res.header('Access-Control-Allow-Origin', '*');
     res.send(simulation.state);
 });
 
