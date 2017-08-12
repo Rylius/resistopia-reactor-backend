@@ -58,6 +58,10 @@ app.use(function (req, res, next) {
     }
 });
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+
 const expressWs = require('express-ws')(app, undefined, {
     perMessageDeflate: config.websockets.compression,
 });

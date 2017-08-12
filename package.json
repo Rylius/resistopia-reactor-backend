@@ -14,6 +14,7 @@
     "dev": "nodemon --ignore backup/ reactor_backend.js"
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
     "deepmerge": "^1.3.2",
     "express": "^4.15.3",
     "express-ws": "^2.0.0",
