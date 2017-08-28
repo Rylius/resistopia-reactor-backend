@@ -24,7 +24,7 @@ function broadcast(type, data) {
 }
 
 function broadcastStateUpdate(state) {
-    broadcast('state', state.stateMachines);
+    broadcast('state', state);
 }
 
 function handleMessage(ws, message) {
